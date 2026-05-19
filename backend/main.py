@@ -24,8 +24,9 @@ app.add_middleware(
 # API 라우터 등록
 app.include_router(convert.router, prefix="/api")
 
-# Health Check (임시: 환경 변수 설정 확인용)
+# Health Check - /health 와 /api/health 둘 다 대응 (임시: 환경 변수 확인용)
 @app.get("/health")
+@app.get("/api/health")
 async def health_check():
     key = os.environ.get("UPSTAGE_API_KEY", "")
     return {
