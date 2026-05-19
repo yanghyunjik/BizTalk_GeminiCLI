@@ -3,12 +3,18 @@ from models.schemas import ConvertRequest, ConvertResponse
 from services.tone_converter import ToneConverter
 
 router = APIRouter()
-converter = ToneConverter()
+_converter = None
+
+def get_converter() -> ToneConverter:
+    global _converter
+    if _converter is None:
+        _converter = ToneConverter()
+    return _converter
 
 @router.post("/convert", response_model=ConvertResponse)
 async def convert_tone(request: ConvertRequest):
     try:
-        converted_text = await converter.convert(request.text, request.target_audience)
+        converted_text = await get_converter().convert(request.text, request.target_audience)
         return ConvertResponse(
             converted_text=converted_text,
             target_audience=request.target_audience,
