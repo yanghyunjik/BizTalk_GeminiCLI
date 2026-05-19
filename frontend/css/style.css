@@ -1,0 +1,182 @@
+:root {
+    --primary-color: #3498db;
+    --secondary-color: #2c3e50;
+    --accent-color: #e67e22;
+    --bg-color: #f4f7f6;
+    --text-color: #333;
+    --white: #ffffff;
+    --border-radius: 8px;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    background-color: var(--white);
+    max-width: 600px;
+    width: 100%;
+    padding: 40px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+header h1 {
+    color: var(--secondary-color);
+    margin-bottom: 10px;
+}
+
+header p {
+    color: #7f8c8d;
+}
+
+h3 {
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    color: var(--secondary-color);
+}
+
+section {
+    margin-bottom: 30px;
+}
+
+.target-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.target-btn {
+    padding: 12px;
+    border: 1px solid #ddd;
+    background-color: var(--white);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+}
+
+.target-btn:hover {
+    background-color: #f0f0f0;
+}
+
+.target-btn.active {
+    background-color: var(--primary-color);
+    color: var(--white);
+    border-color: var(--primary-color);
+}
+
+textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius);
+    resize: none;
+    font-size: 1rem;
+    margin-bottom: 15px;
+    font-family: inherit;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+button#convertBtn {
+    width: 100%;
+    padding: 15px;
+    background-color: var(--secondary-color);
+    color: var(--white);
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button#convertBtn:hover {
+    background-color: #34495e;
+}
+
+.result-container {
+    position: relative;
+}
+
+#outputText {
+    background-color: #f9f9f9;
+}
+
+#copyBtn {
+    padding: 10px 20px;
+    background-color: var(--accent-color);
+    color: var(--white);
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    float: right;
+}
+
+#copyBtn:hover {
+    background-color: #d35400;
+}
+
+.hidden {
+    display: none;
+}
+
+#loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 120px;
+    background-color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: var(--border-radius);
+}
+
+.spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border-left-color: var(--primary-color);
+    animation: spin 1s linear infinite;
+    margin-bottom: 10px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@media (max-width: 480px) {
+    .target-buttons {
+        grid-template-columns: 1fr;
+    }
+}
