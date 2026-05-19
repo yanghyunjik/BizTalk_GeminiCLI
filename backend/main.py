@@ -24,10 +24,15 @@ app.add_middleware(
 # API 라우터 등록
 app.include_router(convert.router, prefix="/api")
 
-# Health Check
+# Health Check (임시: 환경 변수 설정 확인용)
 @app.get("/health")
 async def health_check():
-    return {"status": "ok"}
+    key = os.environ.get("UPSTAGE_API_KEY", "")
+    return {
+        "status": "ok",
+        "upstage_key_set": bool(key),
+        "key_preview": (key[:6] + "...") if key else "NOT SET"
+    }
 
 # 로컬 개발 환경에서만 정적 파일 서빙 (Vercel은 routes로 직접 처리)
 if not os.environ.get("VERCEL"):
