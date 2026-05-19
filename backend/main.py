@@ -1,16 +1,22 @@
+import sys
+import os
+
+# Vercel 서버리스 환경에서 모듈 임포트 경로 설정
+sys.path.insert(0, os.path.dirname(__file__))
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from routers import convert
-import os
+from mangum import Mangum
 
 app = FastAPI(title="업무 말투 변환기 API")
 
 # CORS 설정
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # 배포 시 실제 도메인으로 변경
+    allow_origins=["*"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -23,14 +29,22 @@ app.include_router(convert.router, prefix="/api")
 async def health_check():
     return {"status": "ok"}
 
-# 프론트엔드 정적 파일 서빙
-frontend_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "frontend")
-app.mount("/css", StaticFiles(directory=os.path.join(frontend_path, "css")), name="css")
-app.mount("/js", StaticFiles(directory=os.path.join(frontend_path, "js")), name="js")
+# 로컬 개발 환경에서만 정적 파일 서빙 (Vercel은 routes로 직접 처리)
+if not os.environ.get("VERCEL"):
+    frontend_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "frontend")
+    css_path = os.path.join(frontend_path, "css")
+    js_path = os.path.join(frontend_path, "js")
+    if os.path.exists(css_path):
+        app.mount("/css", StaticFiles(directory=css_path), name="css")
+    if os.path.exists(js_path):
+        app.mount("/js", StaticFiles(directory=js_path), name="js")
 
-@app.get("/")
-async def read_index():
-    return FileResponse(os.path.join(frontend_path, "index.html"))
+    @app.get("/")
+    async def read_index():
+        return FileResponse(os.path.join(frontend_path, "index.html"))
+
+# Vercel 서버리스 함수 핸들러
+handler = Mangum(app)
 
 if __name__ == "__main__":
     import uvicorn

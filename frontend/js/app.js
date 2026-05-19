@@ -1,5 +1,6 @@
 // app.js
-const API_BASE = "http://localhost:8000";
+// 로컬 개발: http://localhost:8000, 배포 환경: 동일 도메인(상대 경로)
+const API_BASE = window.location.hostname === "localhost" ? "http://localhost:8000" : "";
 
 document.addEventListener("DOMContentLoaded", () => {
     const targetBtns = document.querySelectorAll(".target-btn");
