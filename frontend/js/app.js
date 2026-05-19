@@ -78,11 +78,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function setLoading(isLoading) {
         if (isLoading) {
-            loading.classList.remove("hidden");
+            loading.style.display = "flex";
             convertBtn.disabled = true;
             convertBtn.textContent = "변환 중...";
         } else {
-            loading.classList.add("hidden");
+            loading.style.display = "none";
             convertBtn.disabled = false;
             convertBtn.textContent = "변환하기";
         }
